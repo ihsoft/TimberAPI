@@ -5,10 +5,20 @@ namespace TimberApi.AssetSystem
     public interface IAssetLoader
     {
         /// <summary>
+        ///     Resource path delimiter that can be used to rewrite the stock game paths.
+        /// </summary>
+        /// <seealso cref="Load{T}(string)"/>
+        const string ResetPathDelimiter = "_TAPI_RESOURCE_/";
+
+        /// <summary>
         ///     Load a single asset with path string
         ///     Example: Prefix/Subfolder/Filename/ButtonUI
         /// </summary>
-        /// <param name="path">Path to the asset</param>
+        /// <param name="path">
+        /// Path to the asset. If at any place the path contains a sub-string <see cref="ResetPathDelimiter"/>, then
+        /// any content before this prefix is disregarded. This can be used to override the stock game paths when the
+        /// resource path is dynamically constructed inside the game code. 
+        /// </param>
         /// <typeparam name="T">Unity asset object</typeparam>
         T Load<T>(string path) where T : Object;
 

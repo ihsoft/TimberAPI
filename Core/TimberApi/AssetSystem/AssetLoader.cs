@@ -19,8 +19,11 @@ namespace TimberApi.AssetSystem
             _shaderService = shaderService;
         }
 
-        public T Load<T>(string path) where T : Object
-        {
+        public T Load<T>(string path) where T : Object {
+            var delimiterPos = path.IndexOf(IAssetLoader.ResetPathDelimiter, StringComparison.Ordinal);
+            if (delimiterPos != -1) {
+                path = path[(delimiterPos + IAssetLoader.ResetPathDelimiter.Length)..];
+            }
             string[] slicedPath = path.Split("/");
             string prefix = slicedPath.First();
             string newPath = string.Join("/", slicedPath.Skip(1));
